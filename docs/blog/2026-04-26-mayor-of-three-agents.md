@@ -22,6 +22,10 @@ EventBridge ─(every 1m)─▶ Lambda ─▶ DynamoDB ◀─ Django dashboard
 
 Multi-tenant from day one: every key path is scoped by `tenant_id`. No "we'll add isolation later."
 
+![Checks list — Alice's organization](uptime-alice-checks-list.png)
+
+![Check detail — recent results for one URL](uptime-alice-checks-detail.png)
+
 ## The orchestration
 
 The setup runs on [Conductor](https://www.conductor.build/) — a Mac app that gives each agent its own git worktree on the same machine. The pattern is roughly the one [Steve Yegge has been describing](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04): one lead steering and reviewing, a fleet of agents typing. I called the lead role the "mayor."
