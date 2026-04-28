@@ -1,0 +1,23 @@
+[project]
+name = "uptime"
+version = "0.1.0"
+description = "Multi-tenant uptime monitoring platform"
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.0",
+    "boto3",
+    "aiohttp",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-django",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+markers = [
+    "e2e: end-to-end smoke tests (require DynamoDB Local)",
+]

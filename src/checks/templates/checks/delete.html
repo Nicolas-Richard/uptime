@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Check{% endblock %}
+
+{% block content %}
+<div class="max-w-lg">
+  <h1 class="text-2xl font-semibold text-gray-900 mb-6">Delete Check</h1>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <p class="text-gray-700 mb-6">
+      Are you sure you want to delete <strong class="text-gray-900">{{ check.name }}</strong>
+      <span class="text-gray-500">({{ check.url }})</span>?
+    </p>
+    <form method="post" class="flex items-center gap-3">
+      {% csrf_token %}
+      <button type="submit"
+              class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg text-sm">
+        Yes, delete
+      </button>
+      <a href="{% url 'checks:list' %}" class="text-sm text-gray-600 hover:text-gray-800">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

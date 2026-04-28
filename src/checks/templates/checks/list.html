@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Checks{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-semibold text-gray-900">Checks</h1>
+  <a href="{% url 'checks:create' %}"
+     class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm">
+    Add check
+  </a>
+</div>
+
+{% if checks %}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+  <table class="w-full text-sm text-left">
+    <thead class="border-b border-gray-200 bg-gray-50">
+      <tr>
+        <th class="px-4 py-3 font-medium text-gray-600">Name</th>
+        <th class="px-4 py-3 font-medium text-gray-600">URL</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Status</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Last checked</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      {% for check in checks %}
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 font-medium text-gray-900">{{ check.name }}</td>
+        <td class="px-4 py-3 text-gray-500 max-w-xs truncate">{{ check.url }}</td>
+        <td class="px-4 py-3">
+          {% if check.latest_status == "up" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Up</span>
+          {% elif check.latest_status == "down" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Down</span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">&mdash;</span>
+          {% endif %}
+        </td>
+        <td class="px-4 py-3 text-gray-500 text-xs">{{ check.last_checked|default:"Never" }}</td>
+        <td class="px-4 py-3">
+          <div class="flex items-center gap-3 text-xs">
+            <a href="{% url 'results:recent' check.check_id %}" class="text-blue-600 hover:text-blue-800 font-medium">Results</a>
+            <a href="{% url 'checks:edit' check.check_id %}" class="text-gray-600 hover:text-gray-800">Edit</a>
+            <a href="{% url 'checks:delete' check.check_id %}" class="text-red-600 hover:text-red-800">Delete</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+  <p class="text-gray-500 mb-4">No checks yet.</p>
+  <a href="{% url 'checks:create' %}"
+     class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm">
+    Add your first check
+  </a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: uptime-dynamodb-${PORT_OFFSET:-0}
+    ports:
+      - "${DYNAMODB_LOCAL_PORT:-8001}:8000"
+    command: ["-jar", "DynamoDBLocal.jar", "-inMemory"]

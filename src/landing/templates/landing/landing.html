@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Uptime Monitoring{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-[80vh] text-center">
+
+  <div class="mb-12">
+    <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+      Uptime
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-600 max-w-xl mx-auto">
+      Know the moment your sites go down. Simple, reliable HTTP monitoring with results in one place.
+    </p>
+  </div>
+
+  <div class="flex flex-col sm:flex-row items-center gap-3 mb-16">
+    <a href="/auth/login/"
+       class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg text-base">
+      Get started
+    </a>
+    <a href="/auth/login/"
+       class="text-gray-600 hover:text-gray-900 font-medium px-6 py-3 text-base">
+      Log in
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl w-full">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-left">
+      <h3 class="font-semibold text-gray-900 mb-2">HTTP Monitoring</h3>
+      <p class="text-sm text-gray-500">Monitor any URL and get instant alerts when your endpoints stop responding.</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-left">
+      <h3 class="font-semibold text-gray-900 mb-2">1-Minute Checks</h3>
+      <p class="text-sm text-gray-500">Frequent checks so you catch downtime fast, before your users notice.</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-left">
+      <h3 class="font-semibold text-gray-900 mb-2">Multi-Tenant</h3>
+      <p class="text-sm text-gray-500">Organize checks by team or organization with isolated data and access control.</p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

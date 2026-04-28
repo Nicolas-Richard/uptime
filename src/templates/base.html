@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Uptime{% endblock %} | Uptime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="font-sans antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+
+  {% block nav %}
+  {% if user.is_authenticated %}
+  <nav class="bg-white border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+      <div class="flex items-center gap-6">
+        <a href="/checks/" class="text-lg font-semibold text-gray-900">Uptime</a>
+        <a href="/checks/" class="text-sm font-medium text-gray-600 hover:text-gray-900">Checks</a>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="text-gray-500">{{ user.username }}</span>
+        <a href="/auth/logout/" class="text-gray-600 hover:text-gray-900">Log out</a>
+      </div>
+    </div>
+  </nav>
+  {% endif %}
+  {% endblock %}
+
+  <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

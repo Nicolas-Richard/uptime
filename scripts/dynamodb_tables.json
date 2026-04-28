@@ -1,0 +1,50 @@
+[
+  {
+    "TableName": "checks",
+    "KeySchema": [
+      {"AttributeName": "tenant_id", "KeyType": "HASH"},
+      {"AttributeName": "check_id", "KeyType": "RANGE"}
+    ],
+    "AttributeDefinitions": [
+      {"AttributeName": "tenant_id", "AttributeType": "S"},
+      {"AttributeName": "check_id", "AttributeType": "S"},
+      {"AttributeName": "is_active", "AttributeType": "S"}
+    ],
+    "GlobalSecondaryIndexes": [
+      {
+        "IndexName": "is_active-tenant_id",
+        "KeySchema": [
+          {"AttributeName": "is_active", "KeyType": "HASH"},
+          {"AttributeName": "tenant_id", "KeyType": "RANGE"}
+        ],
+        "Projection": {"ProjectionType": "ALL"},
+        "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+      }
+    ],
+    "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+  },
+  {
+    "TableName": "results",
+    "KeySchema": [
+      {"AttributeName": "check_id", "KeyType": "HASH"},
+      {"AttributeName": "timestamp", "KeyType": "RANGE"}
+    ],
+    "AttributeDefinitions": [
+      {"AttributeName": "check_id", "AttributeType": "S"},
+      {"AttributeName": "timestamp", "AttributeType": "S"},
+      {"AttributeName": "tenant_id", "AttributeType": "S"}
+    ],
+    "GlobalSecondaryIndexes": [
+      {
+        "IndexName": "tenant_id-timestamp",
+        "KeySchema": [
+          {"AttributeName": "tenant_id", "KeyType": "HASH"},
+          {"AttributeName": "timestamp", "KeyType": "RANGE"}
+        ],
+        "Projection": {"ProjectionType": "ALL"},
+        "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+      }
+    ],
+    "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+  }
+]
