@@ -147,6 +147,7 @@ def _get_alert_rules(ddb, check_id: str) -> list[dict]:
                 "check_id": item["check_id"]["S"],
                 "webhook_url": item.get("webhook_url", {}).get("S", ""),
                 "name": item.get("name", {}).get("S", ""),
+                "on_recovery": item.get("on_recovery", {}).get("S", "true"),
             }
         )
     return rules
@@ -300,6 +301,8 @@ def _process_record(ddb, record: dict) -> None:
     )
 
     rules = _get_alert_rules(ddb, check_id)
+    if new_status == "up":
+        rules = [r for r in rules if r.get("on_recovery", "true") != "false"]
     if not rules:
         return
 
