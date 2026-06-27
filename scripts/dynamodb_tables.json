@@ -46,5 +46,48 @@
       }
     ],
     "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+  },
+  {
+    "TableName": "alert_rules",
+    "KeySchema": [
+      {"AttributeName": "tenant_id", "KeyType": "HASH"},
+      {"AttributeName": "rule_id", "KeyType": "RANGE"}
+    ],
+    "AttributeDefinitions": [
+      {"AttributeName": "tenant_id", "AttributeType": "S"},
+      {"AttributeName": "rule_id", "AttributeType": "S"},
+      {"AttributeName": "check_id", "AttributeType": "S"}
+    ],
+    "GlobalSecondaryIndexes": [
+      {
+        "IndexName": "check_id-index",
+        "KeySchema": [
+          {"AttributeName": "check_id", "KeyType": "HASH"}
+        ],
+        "Projection": {"ProjectionType": "ALL"},
+        "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}
+      }
+    ],
+    "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5},
+    "StreamSpecification": {
+      "StreamEnabled": true,
+      "StreamViewType": "NEW_AND_OLD_IMAGES"
+    }
+  },
+  {
+    "TableName": "alert_events",
+    "KeySchema": [
+      {"AttributeName": "check_id", "KeyType": "HASH"},
+      {"AttributeName": "event_id", "KeyType": "RANGE"}
+    ],
+    "AttributeDefinitions": [
+      {"AttributeName": "check_id", "AttributeType": "S"},
+      {"AttributeName": "event_id", "AttributeType": "S"}
+    ],
+    "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5},
+    "StreamSpecification": {
+      "StreamEnabled": true,
+      "StreamViewType": "NEW_AND_OLD_IMAGES"
+    }
   }
 ]
