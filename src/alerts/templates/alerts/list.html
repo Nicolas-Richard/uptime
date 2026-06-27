@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Alerts — {{ check.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'checks:list' %}" class="text-sm text-blue-600 hover:text-blue-800">&larr; Back to checks</a>
+</div>
+
+<div class="mb-6 flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold text-gray-900">{{ check.name }}</h1>
+    <p class="mt-1 text-sm text-gray-500 break-all">{{ check.url }}</p>
+  </div>
+</div>
+
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-lg font-medium text-gray-900">Alert Rules</h2>
+  <div class="flex items-center gap-3 text-sm">
+    <a href="{% url 'alerts:events' check.check_id %}" class="text-gray-600 hover:text-gray-800">Delivery history</a>
+    <a href="{% url 'alerts:create' check.check_id %}"
+       class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm">
+      Add rule
+    </a>
+  </div>
+</div>
+
+{% if rules %}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+  <table class="w-full text-sm text-left">
+    <thead class="border-b border-gray-200 bg-gray-50">
+      <tr>
+        <th class="px-4 py-3 font-medium text-gray-600">Name</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Webhook URL</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Active</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      {% for rule in rules %}
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 font-medium text-gray-900">{{ rule.name }}</td>
+        <td class="px-4 py-3 text-gray-500 max-w-xs truncate">{{ rule.webhook_url }}</td>
+        <td class="px-4 py-3">
+          {% if rule.is_active == "true" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Yes</span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">No</span>
+          {% endif %}
+        </td>
+        <td class="px-4 py-3">
+          <a href="{% url 'alerts:delete' check.check_id rule.rule_id %}"
+             class="text-red-600 hover:text-red-800 text-xs font-medium">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 px-4 py-12 text-center">
+  <p class="text-sm text-gray-400">No alert rules yet. Add one to receive webhook notifications on status changes.</p>
+</div>
+{% endif %}
+{% endblock %}

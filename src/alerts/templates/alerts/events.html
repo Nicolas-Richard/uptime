@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Alert Delivery History — {{ check.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'alerts:list' check.check_id %}" class="text-sm text-blue-600 hover:text-blue-800">&larr; Back to alert rules</a>
+</div>
+
+<div class="mb-6">
+  <h1 class="text-2xl font-semibold text-gray-900">{{ check.name }}</h1>
+  <p class="mt-1 text-sm text-gray-500 break-all">{{ check.url }}</p>
+</div>
+
+<h2 class="text-lg font-medium text-gray-900 mb-4">Delivery History</h2>
+
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+  <table class="w-full text-sm text-left">
+    <thead class="border-b border-gray-200 bg-gray-50">
+      <tr>
+        <th class="px-4 py-3 font-medium text-gray-600">Timestamp</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Transition</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Webhook URL</th>
+        <th class="px-4 py-3 font-medium text-gray-600">Delivery</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      {% for ev in events %}
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 whitespace-nowrap text-xs text-gray-500">{{ ev.timestamp }}</td>
+        <td class="px-4 py-3 whitespace-nowrap text-sm">
+          {% if ev.event_type == "down" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">↓ Down</span>
+          {% elif ev.event_type == "up" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">↑ Up</span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">{{ ev.event_type }}</span>
+          {% endif %}
+          <span class="text-xs text-gray-400 ml-1">from {{ ev.previous_status|default:"—" }}</span>
+        </td>
+        <td class="px-4 py-3 text-gray-500 max-w-xs truncate text-xs">{{ ev.webhook_url }}</td>
+        <td class="px-4 py-3 whitespace-nowrap text-sm">
+          {% if ev.delivery_status == "delivered" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Delivered</span>
+          {% elif ev.delivery_status == "failed" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Failed</span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">{{ ev.delivery_status|default:"—" }}</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="px-4 py-8 text-center text-sm text-gray-400">
+          No alert events yet. Events appear when a status transition triggers a webhook.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

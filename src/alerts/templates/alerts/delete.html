@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Alert Rule — {{ check.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'alerts:list' check.check_id %}" class="text-sm text-blue-600 hover:text-blue-800">&larr; Back to alert rules</a>
+</div>
+
+<div class="mb-6">
+  <h1 class="text-2xl font-semibold text-gray-900">Delete Alert Rule</h1>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 px-6 py-6 max-w-lg">
+  <p class="text-sm text-gray-700 mb-1">
+    Are you sure you want to delete <strong>{{ rule.name }}</strong>?
+  </p>
+  <p class="text-xs text-gray-500 break-all mb-6">{{ rule.webhook_url }}</p>
+
+  <form method="post" class="flex items-center gap-3">
+    {% csrf_token %}
+    <button type="submit"
+            class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg text-sm">
+      Delete rule
+    </button>
+    <a href="{% url 'alerts:list' check.check_id %}" class="text-sm text-gray-600 hover:text-gray-800">Cancel</a>
+  </form>
+</div>
+{% endblock %}

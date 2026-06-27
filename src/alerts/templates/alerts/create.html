@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Add Alert Rule — {{ check.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'alerts:list' check.check_id %}" class="text-sm text-blue-600 hover:text-blue-800">&larr; Back to alert rules</a>
+</div>
+
+<div class="mb-6">
+  <h1 class="text-2xl font-semibold text-gray-900">Add Alert Rule</h1>
+  <p class="mt-1 text-sm text-gray-500">{{ check.name }}</p>
+</div>
+
+{% if errors %}
+<div class="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3">
+  <ul class="list-disc list-inside text-sm text-red-700 space-y-1">
+    {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 px-6 py-6 max-w-lg">
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Rule name</label>
+      <input id="name" name="name" type="text" value="{{ name|default:'' }}"
+             placeholder="e.g. Ops webhook"
+             class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+    <div>
+      <label for="webhook_url" class="block text-sm font-medium text-gray-700 mb-1">Webhook URL</label>
+      <input id="webhook_url" name="webhook_url" type="url" value="{{ webhook_url|default:'' }}"
+             placeholder="https://hooks.example.com/..."
+             class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <p class="mt-1 text-xs text-gray-400">POST requests are sent when the check status changes between up and down.</p>
+    </div>
+    <div class="flex items-center gap-3 pt-2">
+      <button type="submit"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm">
+        Save rule
+      </button>
+      <a href="{% url 'alerts:list' check.check_id %}" class="text-sm text-gray-600 hover:text-gray-800">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

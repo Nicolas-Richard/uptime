@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "organizations",
     "checks",
     "results",
+    "alerts",
     "landing",
 ]
 

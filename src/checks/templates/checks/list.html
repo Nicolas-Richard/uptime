@@ -41,6 +41,7 @@
         <td class="px-4 py-3">
           <div class="flex items-center gap-3 text-xs">
             <a href="{% url 'results:recent' check.check_id %}" class="text-blue-600 hover:text-blue-800 font-medium">Results</a>
+            <a href="{% url 'alerts:list' check.check_id %}" class="text-blue-600 hover:text-blue-800 font-medium">Alerts</a>
             <a href="{% url 'checks:edit' check.check_id %}" class="text-gray-600 hover:text-gray-800">Edit</a>
             <a href="{% url 'checks:delete' check.check_id %}" class="text-red-600 hover:text-red-800">Delete</a>
           </div>
