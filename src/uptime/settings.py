@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "results",
     "alerts",
     "landing",
+    "status",
 ]
 
 MIDDLEWARE = [

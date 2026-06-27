@@ -10,4 +10,5 @@ urlpatterns = [
     path("checks/", include("checks.urls")),
     path("checks/", include("results.urls")),
     path("checks/", include("alerts.urls")),
+    path("status/", include("status.urls")),
 ]

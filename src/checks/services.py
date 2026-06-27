@@ -37,6 +37,7 @@ def create_check(
     name: str,
     url: str,
     timeout_seconds: int = 30,
+    is_public: bool = False,
 ) -> dict:
     """Create a new check and return the item."""
     table = _get_table()
@@ -48,6 +49,7 @@ def create_check(
         "url": url,
         "timeout_seconds": timeout_seconds,
         "is_active": "true",
+        "is_public": "true" if is_public else "false",
         "created_at": now,
         "updated_at": now,
     }

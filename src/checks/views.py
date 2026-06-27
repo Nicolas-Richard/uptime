@@ -49,7 +49,8 @@ def check_create(request):
                 "timeout_seconds": timeout,
             })
 
-        services.create_check(tenant_id, name, url, timeout_seconds)
+        is_public = request.POST.get("is_public") == "on"
+        services.create_check(tenant_id, name, url, timeout_seconds, is_public=is_public)
         return redirect("checks:list")
 
     return render(request, "checks/create.html", {"timeout_seconds": 30})
@@ -88,6 +89,7 @@ def check_edit(request, check_id):
                 "errors": errors,
             })
 
+        is_public = request.POST.get("is_public") == "on"
         services.update_check(
             tenant_id,
             check_id,
@@ -95,6 +97,7 @@ def check_edit(request, check_id):
             url=url,
             timeout_seconds=timeout_seconds,
             is_active="true" if is_active == "true" else "false",
+            is_public="true" if is_public else "false",
         )
         return redirect("checks:list")
 
